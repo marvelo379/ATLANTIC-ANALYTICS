@@ -1,0 +1,141 @@
+THE FILE EXPLAINS YOU HOW TO RUN THE ENTIRE APPLICATION
+
+1. GIT PULL THE FOLDER UNIFIED_MLPROJECT1/DOWNLOAD AND OPEN TERMINAL AT THE FOLDER 
+2. CREATE A VIRTUAL ENVIROMENT 
+
+at UNIFIED_MLPROJECT1/
+ cmd: python -m venv venv
+ cmd: venv\Scripts\activate
+ cmd: pip install requirements.txt 
+ // or externally install all dependencies mentioned in requirements.txt FOLDER
+
+3. MOVE INSIDE SRC FOLDER
+  cmd: cd src 
+4. MOVE INSIDE API FOLDER 
+   cmd: cd api 
+
+5. CREATE TWO TERMINALS 
+
+6. AT TERMINAL(T1)
+   START THE BACKEND /API ACTIVATION ,RUN main.py
+   cmd: uvicorn main:app --reload
+   ### default runs on (http://127.0.0.1:8000)
+      
+6. AT TERMINAL(T2)
+   RUN THE STREAMLIT FRONTEND FILE APP.PY
+   cmd: streamlit run app.py 
+
+"DASHBOARD IS VISIBLE "
+
+----------------------------------------------------------
+A WELL DRAFTED EXPLANATION OF CODEBASE FLOW (YET AT RUNTIME NOT NEEDED TO EXECUTE !)
+
+#######
+HOW EVERYTHING WORKS :::FLOW OF CODEBASE 
+
+THE CODEBASE IS PREPARED IN THREE STEPS
+1. DATA MODELING:ML WORKSPACE 
+2.BACKEND WORKSPACE 
+3.FRONTEND WORKSPACE 
+
+
+
+-----------------------------------
+1. DATA MODELING :ML WORKSPACE !!! OUTER FLOW 
+
+> DATASETLOAD.PY 
+cmd:py datasetload.py  
+input:  data/raw/Atlantic_United_States.csv
+output: data/processed/unified_dataingestion.csv
+
+################################################################
+
+
+> featureextraction1.py 
+cmd: py featureextraction.py 
+input: data/processed/unified_dataingestion.csv
+output: engineered_features.csv ,top_song_analytics.csv
+#################################################################################
+
+
+> featureextraction2.py '
+> cmd: py featureextraction2.py 
+> input: engineered_features.csv ,top_song_analytics.csv
+merger took place first , final_dataset_merged_features.csv is invented 
+>output: final_dataset_merged_features.csv
+
+###################################################################
+> songLevelPerformanceAnalytics.py
+cmd: py songLevelPerformanceAnalytics.py 
+input:  final_dataset_merged_features.csv 
+output: unified_feng.csv
+>plot2.py 
+cmd: py plot2.py 
+input :  final_dataset_merged_features.csv
+output: data/processed/plot2 ----ALL THE PLOTS 
+
+################################################################
+>artist_analytics.py 
+cmd: py artist_analytics.py 
+input: unified_feng.csv 
+output :unified_dts_artisteng.csv,artist_analytics_profile.csv 
+
+>plots_artist.py 
+cmd: py plots_artist.py 
+input :artist_analytics_profiles
+outplut : charts in data/processed/plotartist
+
+###################################################################
+>popularity_analytics.py 
+cmd: py popularity_analytics.py 
+input: unified_dts_artisteng.csv 
+output: popularity_correlation_matrix.csv,unifiled_psa.csv 
+
+>plots_popularity.py
+cmd:py plots_popularity.py 
+input: unifiled_psa.csv
+output:data/processed/plotpopularity
+#########################################################
+>content_analytics.py 
+cmd: py content_analytics.py 
+input:unifiled_psa.csv 
+output:final_complete_dataset_2024_25.csv
+
+
+>plots_content.py
+cmd:py plots_content.py 
+input:song_content_profiles.csv
+output:data/processed/plotcontent
+
+##############################################################
+
+>model.py 
+cmd: py model.py 
+input:final_complete_dataset_2024_25.csv   
+Note :::I have trained my model in cloud env so root path appears "/content/final_complete_dataset_2024_25.csv"
+output:dashboard_predictions_2027_2028.csv
+output_charts: ml/ml_project_complete_workspace/dashboard_charts
+
+Note::: The folder ml/ml_project_complete_workspace "is A model preparation folder with model code and pkl file and new created forecast datasets 
+
+#############################################################
+
+>src/api :"created this folder for frontend and backend workspace "
+
+1. main.py : IMPLEMENTATION OF ALL BACKEND API FOR SONG CHART DASHBOARD 
+cmd:  cmd: uvicorn main:app --reload
+   ### default runs on (http://127.0.0.1:8000)   
+
+2.app.py :IMPLEMENTATION OF ALL FRONTEND STREAMLIT BASED UI DASHBOARD GENERATION 
+ cmd: streamlit run app.py 
+ default: http://localhost:8500/          
+
+
+
+
+
+
+
+
+
+
